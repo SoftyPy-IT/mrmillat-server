@@ -18,7 +18,8 @@ const decoded = jwt.verify(token,
   config.access_token_secret as string
 )as JwtPayload;
 
-const {role,email} = decoded;
+
+const {role,email,iat} = decoded;
 const user =await User.findOne({email});
 
 if(!user){
@@ -33,6 +34,15 @@ if(userStatus==='blocked'){
     'user is blocked!'
   )
 }
+
+
+if(user.passwordChangedAt&&User.isJWTIssuedBeforePasswordChange(
+  user.passwordChangedAt,
+  iat as number
+)){
+  throw new Error("You are not authorized!")
+}
+
 
 if(requiredRoles && !requiredRoles.includes(role)){
   throw new Error("You are not authorized!")

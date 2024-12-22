@@ -17,6 +17,9 @@ const UserSchema = new Schema<IUser,UserModel>({
     required:true,
     select:0
   },
+  passwordChangedAt: {
+    type: Date,
+  },
   imageUrl: {
     type: String,
   },
@@ -49,9 +52,23 @@ if(isUserExist){
   next();
 })
 
+UserSchema.post('save',function(doc,next){
+  doc.password = '';
+  next();
+})
+
+
 
 UserSchema.statics.isPasswordMatched=async function(plainTextPassword,hashedPassword){
 return await bcrypt.compare(plainTextPassword,hashedPassword);
+}
+
+UserSchema.statics.isJWTIssuedBeforePasswordChange=function(
+  passwordChangedTimestamp:Date,
+  jwtIssuedTimestamp:number
+){
+const passwordChangedTime = new Date(passwordChangedTimestamp).getTime()/1000;
+return passwordChangedTime>jwtIssuedTimestamp;
 }
 
 

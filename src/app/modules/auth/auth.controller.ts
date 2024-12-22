@@ -34,9 +34,6 @@ const changePassword = catchAsync(
     const userData = req.user;
     const passwordData = req.body; 
     const result = await authServices.changePasswordIntoDB(userData,passwordData); 
-    if (!result) {
-      throw new Error("User not found");
-    }
     sendResponse(res,{
       statusCode:StatusCodes.OK,
       success:true,

@@ -7,7 +7,7 @@ import bcrypt from "bcrypt"
 
 
 const loginUser = async(payload:TLogin)=>{
-const user =await User.findOne({email:payload.email});
+const user =await User.findOne({email:payload.email}).select('+password');
 
 if(!user){
   throw new Error(
@@ -49,7 +49,7 @@ const refreshToken = async(token:string)=>{
 
 const decoded= jwt.verify(token,config.refresh_token_secret as string) as JwtPayload;
 
-const {email} = decoded;
+const {email,iat} = decoded;
 
 
 const user =await User.findOne({email});
@@ -66,6 +66,14 @@ if(userStatus==='blocked'){
     'user is blocked!'
   )
 }
+
+if(user.passwordChangedAt&&User.isJWTIssuedBeforePasswordChange(
+  user.passwordChangedAt,
+  iat as number
+)){
+  throw new Error("You are not authorized!")
+}
+
 
 const jwtPayload = {
   email:user.email,
@@ -89,7 +97,7 @@ const changePasswordIntoDB =async (userData:JwtPayload,payload:{
 }) =>{
   const isUserExist = await User.findOne({
     email:userData?.email
-  });
+  }).select('+password');
 
   if(!isUserExist){
     throw new Error('Users does not exist')

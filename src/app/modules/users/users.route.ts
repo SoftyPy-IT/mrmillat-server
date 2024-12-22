@@ -13,7 +13,6 @@ router.get('/:id',auth('admin','editor'),UserControllers.getSingleUser);
 
 router.patch('/update-profile/:id',auth('admin','editor'),validationRequest(userValidation.updateUserProfileValidationSchema),UserControllers.updateUserProfile);
 
-
 router.delete('/:id',auth('admin'),UserControllers.deleteUser);
 
 export const userRoutes = router
