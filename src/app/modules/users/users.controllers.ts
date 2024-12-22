@@ -31,8 +31,9 @@ const getAllUser = catchAsync(
 
 const getSingleUser = catchAsync(
   async(req,res)=>{
+    const payload = req.user;
     const {id} = req.params;  
-    const result = await UserServices.getSingleUserFromDB(id); 
+    const result = await UserServices.getSingleUserFromDB(id,payload); 
     if (!result) {
      throw new Error("User not found");
     }
@@ -48,9 +49,10 @@ const getSingleUser = catchAsync(
 
 const updateUserProfile = catchAsync(
   async(req,res)=>{
+    const payload= req.user;
     const {id} = req.params; 
-    const User = req.body; 
-    const result = await UserServices.updateUserProfileFromDB(id,User); 
+    const updateData = req.body; 
+    const result = await UserServices.updateUserProfileFromDB(id,updateData,payload); 
     if (!result) {
       throw new Error("User not found");
     }
@@ -62,22 +64,8 @@ const updateUserProfile = catchAsync(
     })
   }
 )
-const changePassword = catchAsync(
-  async(req,res)=>{
-    const {id} = req.params; 
-    const User = req.body; 
-    const result = await UserServices.changePasswordIntoDB(id,User); 
-    if (!result) {
-      throw new Error("User not found");
-    }
-    sendResponse(res,{
-      statusCode:StatusCodes.OK,
-      success:true,
-      message:"Password is changed successfully",
-      data:result
-    })
-  }
-)
+
+
 
 const deleteUser = catchAsync(
   async(req,res)=>{
@@ -102,6 +90,5 @@ export const UserControllers ={
   getSingleUser,
   updateUserProfile,
   deleteUser,
-  changePassword
 }
 
