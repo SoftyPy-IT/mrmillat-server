@@ -4,25 +4,33 @@ import sendResponse from "../../utils/sendResponse";
 import { authServices } from "./auth.services";
 import config from "../../config";
 
-
 const loginUser = catchAsync(
   async (req, res) => {
   const result = await authServices.loginUser(req.body);
   const {
     refreshToken,
-    accessToken
+    accessToken,
+    user
   }= result;
 
-  res.cookie('refreshToken',refreshToken,{
-    secure:config.NODE_ENV==='production',
-    httpOnly:true
-  })
+  res.cookie('refreshToken', refreshToken, {
+    secure: config.NODE_ENV === 'production',
+    httpOnly: true, // Keep the refresh token HttpOnly (can't be accessed in JS)
+  });
+  
+  res.cookie('accessToken', accessToken, {
+    secure: config.NODE_ENV === 'production',
+    httpOnly: false, // Allows client-side JavaScript to read it
+  });
+  
+
     sendResponse(res,{
       statusCode:StatusCodes.OK,
       success:true,
       message:' User login successfully',
       data:{
         accessToken,
+        user
       }
     })
    

@@ -8,7 +8,8 @@ import { heroSectionRoutes } from "../modules/heroSection/heroSection.route";
 import { journeyToPoliticsRoutes } from "../modules/journeyToPolitics/journeyToPolitics.route";
 import { biographyRoutes } from "../modules/biography/biography.route";
 import { userRoutes } from "../modules/users/users.route";
-import { AuthRoutes } from "../modules/auth/auth.route";
+import { authRoutes } from "../modules/auth/auth.route";
+import { photosRoutes } from "../modules/photos/photo.route";
 
 const router = Router();
 
@@ -52,8 +53,12 @@ const moduleRoutes = [
   },
   {
     path:'/auth',
-    route:AuthRoutes
-  }
+    route:authRoutes
+  },
+  {
+    path:'/photos',
+    route:photosRoutes
+  },
 ]
 
 

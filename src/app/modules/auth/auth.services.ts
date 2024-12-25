@@ -41,7 +41,8 @@ const refreshToken=createToken(jwtPayload,config.refresh_token_secret as string,
 
 return {
   accessToken,
-  refreshToken
+  refreshToken,
+  user
 }
 }
 
