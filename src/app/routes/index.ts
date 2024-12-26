@@ -10,6 +10,7 @@ import { biographyRoutes } from "../modules/biography/biography.route";
 import { userRoutes } from "../modules/users/users.route";
 import { authRoutes } from "../modules/auth/auth.route";
 import { photosRoutes } from "../modules/photos/photo.route";
+import { videoRoutes } from "../modules/videos/video.route";
 
 const router = Router();
 
@@ -58,6 +59,10 @@ const moduleRoutes = [
   {
     path:'/photos',
     route:photosRoutes
+  },
+  {
+    path:'/videos',
+    route:videoRoutes
   },
 ]
 

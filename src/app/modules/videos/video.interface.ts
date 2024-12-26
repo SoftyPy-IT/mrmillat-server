@@ -1,3 +1,4 @@
-export type TVideo={
-  folder:string
-}
+export type TVideo = {
+  folder: string;
+  videoUrl: string;
+};

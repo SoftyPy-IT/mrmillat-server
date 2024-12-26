@@ -1,8 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import QueryBuilder from "../../builders/QueryBuilder";
+import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import { TPhoto } from "./photo.interface";
 import { Photo } from "./photo.model";
 
-const createPhotoIntoDB = async(payload:TPhoto)=>{
+
+
+const createPhotoIntoDB = async(payload:TPhoto,file:any)=>{
+
+const name = `${payload?.folder}-${Date.now()}`;
+const path = file?.path;
+
+const {secure_url} = await sendImageToCloudinary(name,path);
+payload.imageUrl= secure_url;
 const result = await Photo.create(payload);
 return result;
 }

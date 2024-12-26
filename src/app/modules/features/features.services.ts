@@ -9,10 +9,8 @@ return result;
 
 const updateFeaturesFromDB = async(id:string,payload:Partial<TFeatures>)=>{
 const result = await Feature.findByIdAndUpdate(id,payload,{new:true});
-return result;
+return result
 }
-
-
 
 
 export const FeaturesServices ={

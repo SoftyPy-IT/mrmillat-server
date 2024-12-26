@@ -1,3 +1,4 @@
 export type TPhoto={
-  folder:string
+  folder:string,
+  imageUrl:string
 }
