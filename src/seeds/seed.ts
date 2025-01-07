@@ -8,29 +8,29 @@ import { biographyData, featuresData, heroSectionData, user } from './seedData';
 async function seedFeatures() {
   try {
     if (database.connection.readyState === 0) {
-      console.log('Database connection not established. Exiting seed script.');
+      // console.log('Database connection not established. Exiting seed script.');
       return;
     }
     //  features
     await Feature.deleteMany();
-    console.log('Cleared existing data from Features collection');
+    // console.log('Cleared existing data from Features collection');
     await Feature.create(featuresData);
-    console.log('Inserted features data successfully');
+    // console.log('Inserted features data successfully');
 
     // hero section
     await HeroSection.deleteMany();
-    console.log('Cleared existing data from hero section collection');
+    // console.log('Cleared existing data from hero section collection');
     await HeroSection.create(heroSectionData);
-    console.log('Inserted hero section data successfully');
+    // console.log('Inserted hero section data successfully');
 
     // biography
     await Biography.deleteMany();
-    console.log('Cleared existing data from Biography collection');
+    // console.log('Cleared existing data from Biography collection');
     await Biography.create(biographyData);
-    console.log('Inserted Biography data successfully');
+    // console.log('Inserted Biography data successfully');
     // user
     await User.deleteMany();
-    console.log('Cleared existing data from User collection');
+    // console.log('Cleared existing data from User collection');
     await User.create(user);
     console.log('Inserted user data successfully');
   } catch (error) {
