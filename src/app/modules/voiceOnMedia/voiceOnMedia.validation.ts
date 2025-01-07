@@ -11,7 +11,7 @@ const createVoiceOnMediaValidationSchema = z.object({
 const updateVoiceOnMediaValidationSchema = z.object({
   body: z.object({
     title: z.string({ invalid_type_error: 'title must be string' }).optional(),
-    date: z.string({ invalid_type_error: 'date must be string' }).optional(),
+    // date: z.string({ invalid_type_error: 'date must be string' }).optional(),
     videoUrl: z
       .string({ invalid_type_error: 'video url must be string' })
       .optional(),
