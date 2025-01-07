@@ -3,18 +3,21 @@ import cors from 'cors';
 import router from './app/routes';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import notFound from './app/middlewares/notFound';
-import cookieParser from "cookie-parser";
+import cookieParser from 'cookie-parser';
 
 
-const app:Application = express();
+const app: Application = express();
 
 app.use(express.json());
-app.use(cors({origin:["http://localhost:3000"],
-  credentials: true, 
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }),
+);
 app.use(cookieParser());
-app.use('/api/v1',router);
+app.use('/api/v1', router);
 app.use(globalErrorHandler);
 app.use(notFound);
 

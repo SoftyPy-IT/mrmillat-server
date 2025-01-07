@@ -5,14 +5,24 @@ import { UserControllers } from './users.controllers';
 import auth from '../../middlewares/auth';
 const router = express.Router();
 
-router.post('/create-user',auth('admin'),validationRequest(userValidation.createUserValidationSchema), UserControllers.createUser);
+router.post(
+  '/create-user',
+  auth('admin'),
+  validationRequest(userValidation.createUserValidationSchema),
+  UserControllers.createUser,
+);
 
-router.get('/',auth('admin'), UserControllers.getAllUser);
+router.get('/', auth('admin'), UserControllers.getAllUser);
 
-router.get('/:id',auth('admin','editor'),UserControllers.getSingleUser);
+router.get('/:id', auth('admin', 'editor'), UserControllers.getSingleUser);
 
-router.patch('/update-profile/:id',auth('admin','editor'),validationRequest(userValidation.updateUserProfileValidationSchema),UserControllers.updateUserProfile);
+router.patch(
+  '/update-profile/:id',
+  auth('admin', 'editor'),
+  validationRequest(userValidation.updateUserProfileValidationSchema),
+  UserControllers.updateUserProfile,
+);
 
-router.delete('/:id',auth('admin'),UserControllers.deleteUser);
+router.delete('/:id', auth('admin'), UserControllers.deleteUser);
 
-export const userRoutes = router
+export const userRoutes = router;

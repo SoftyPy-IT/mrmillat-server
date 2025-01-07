@@ -6,11 +6,24 @@ import auth from '../../middlewares/auth';
 
 const router = express.Router();
 
-router.post('/create-voice-on-media',auth('admin','editor'),validationRequest(voiceOnMediaValidation.createVoiceOnMediaValidationSchema), VoiceOnMediaControllers.createVoiceOnMedia);
+router.post(
+  '/create-voice-on-media',
+  auth('admin', 'editor'),
+  validationRequest(voiceOnMediaValidation.createVoiceOnMediaValidationSchema),
+  VoiceOnMediaControllers.createVoiceOnMedia,
+);
 router.get('/', VoiceOnMediaControllers.getAllVoiceOnMedias);
-router.get('/:id',VoiceOnMediaControllers.getSingleVoiceOnMedia);
-router.patch('/:id',auth('admin','editor'),validationRequest(voiceOnMediaValidation.updateVoiceOnMediaValidationSchema),VoiceOnMediaControllers.updateVoiceOnMedia);
-router.delete('/:id',auth('admin','editor'),VoiceOnMediaControllers.deleteVoiceOnMedia);
+router.get('/:id', VoiceOnMediaControllers.getSingleVoiceOnMedia);
+router.patch(
+  '/:id',
+  auth('admin', 'editor'),
+  validationRequest(voiceOnMediaValidation.updateVoiceOnMediaValidationSchema),
+  VoiceOnMediaControllers.updateVoiceOnMedia,
+);
+router.delete(
+  '/:id',
+  auth('admin', 'editor'),
+  VoiceOnMediaControllers.deleteVoiceOnMedia,
+);
 
-
-export const voiceOnMediaRoutes = router ;
+export const voiceOnMediaRoutes = router;

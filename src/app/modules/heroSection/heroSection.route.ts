@@ -7,6 +7,11 @@ import auth from '../../middlewares/auth';
 const router = express.Router();
 router.get('/', HeroSectionControllers.getAllHeroSection);
 router.get('/:id', HeroSectionControllers.getSingleHeroSection);
-router.patch('/:id',auth('admin','editor'),validationRequest(heroSectionValidation.HeroSectionUpdateValidationSchema),HeroSectionControllers.updateHeroSection);
+router.patch(
+  '/:id',
+  auth('admin', 'editor'),
+  validationRequest(heroSectionValidation.HeroSectionUpdateValidationSchema),
+  HeroSectionControllers.updateHeroSection,
+);
 
-export const heroSectionRoutes = router
+export const heroSectionRoutes = router;

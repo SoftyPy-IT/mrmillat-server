@@ -1,27 +1,32 @@
-import { z} from "zod"
+import { z } from 'zod';
 
 const createEventValidationSchema = z.object({
-  body:z.object( {
-    title:z.string({invalid_type_error:"title must be string",}),
-    description:z.string({invalid_type_error:"description must be string"}),
-    location:z.string({invalid_type_error:"location must be string"}),
-    date:z.string({invalid_type_error:"date must be string"}).datetime(),
-    imageUrl:z.string({invalid_type_error:"imageUrl must be string"})
-  })
-})
+  body: z.object({
+    title: z.string({ invalid_type_error: 'title must be string' }),
+    description: z.string({ invalid_type_error: 'description must be string' }),
+    location: z.string({ invalid_type_error: 'location must be string' }),
+    date: z.string({ invalid_type_error: 'date must be string' }),
+    imageUrl: z.string({ invalid_type_error: 'imageUrl must be string' }),
+  }),
+});
 
 const updateEventValidationSchema = z.object({
-  body:z.object( {
-    title:z.string({invalid_type_error:"title must be string",}).optional(),
-    description:z.string({invalid_type_error:"description must be string"}).optional(),
-    location:z.string({invalid_type_error:"location must be string"}).optional(),
-    date:z.string({invalid_type_error:"date must be string"}).datetime().optional(),
-    imageUrl:z.string({invalid_type_error:"imageUrl must be string"}).optional()
-  })
-})
+  body: z.object({
+    title: z.string({ invalid_type_error: 'title must be string' }).optional(),
+    description: z
+      .string({ invalid_type_error: 'description must be string' })
+      .optional(),
+    location: z
+      .string({ invalid_type_error: 'location must be string' })
+      .optional(),
+    date: z.string({ invalid_type_error: 'date must be string' }).optional(),
+    imageUrl: z
+      .string({ invalid_type_error: 'imageUrl must be string' })
+      .optional(),
+  }),
+});
 
-
-export const eventValidation ={
+export const eventValidation = {
   createEventValidationSchema,
-  updateEventValidationSchema
-}
+  updateEventValidationSchema,
+};

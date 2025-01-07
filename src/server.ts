@@ -2,12 +2,11 @@ import app from './app';
 import config from './app/config';
 import mongoose from 'mongoose';
 
-
 export const database = mongoose;
 
 async function main() {
   try {
-    await mongoose.connect(config.data_base_url as string);  // Connect to the database
+    await mongoose.connect(config.data_base_url as string); // Connect to the database
 
     app.listen(config.port, () => {
       console.log(`Example app listening on port ${config.port}`);

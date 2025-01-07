@@ -1,42 +1,41 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import QueryBuilder from "../../builders/QueryBuilder";
-import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
-import { TPhoto } from "./photo.interface";
-import { Photo } from "./photo.model";
+import QueryBuilder from '../../builders/QueryBuilder';
+import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
+import { TPhoto } from './photo.interface';
+import { Photo } from './photo.model';
 
+const createPhotoIntoDB = async (payload: TPhoto, file: any) => {
+  const name = `${payload?.folder}-${Date.now()}`;
+  const path = file?.path;
 
+  const { secure_url } = await sendImageToCloudinary(name, path);
+  payload.imageUrl = secure_url;
+  const result = await Photo.create(payload);
+  return result;
+};
 
-const createPhotoIntoDB = async(payload:TPhoto,file:any)=>{
+const getAllPhotoFromDB = async (query: Record<string, unknown>) => {
+  const { folder } = query;
+  const PhotoQuery = new QueryBuilder(Photo.find(), query).filter().paginate();
+  const data = await PhotoQuery.modelQuery;
+  const totalCount = await Photo.countDocuments(folder ? { folder } : {});
+  const result = { data, totalCount };
+  return result;
+};
 
-const name = `${payload?.folder}-${Date.now()}`;
-const path = file?.path;
+const getSinglePhotoFromDB = async (id: string) => {
+  const result = await Photo.findById(id);
+  return result;
+};
 
-const {secure_url} = await sendImageToCloudinary(name,path);
-payload.imageUrl= secure_url;
-const result = await Photo.create(payload);
-return result;
-}
+const deletePhotoFromDB = async (id: string) => {
+  const result = await Photo.findByIdAndDelete(id);
+  return result;
+};
 
-const getAllPhotoFromDB = async(query:Record<string,unknown>)=>{
-const PhotoQuery = new QueryBuilder(Photo.find(),query).paginate();
-const result = await PhotoQuery.modelQuery;
-return result;
-}
-
-const getSinglePhotoFromDB = async(id:string)=>{
-const result = await Photo.findById(id);
-return result;
-}
-
-const deletePhotoFromDB = async(id:string)=>{
-const result = await Photo.findByIdAndDelete(id);
-return result;
-}
-
-
-export const PhotoServices ={
+export const PhotoServices = {
   createPhotoIntoDB,
   getAllPhotoFromDB,
   getSinglePhotoFromDB,
-  deletePhotoFromDB
-}
+  deletePhotoFromDB,
+};

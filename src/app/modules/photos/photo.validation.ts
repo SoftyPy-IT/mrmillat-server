@@ -1,11 +1,11 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-const createPhotoValidationSchema =z.object({
-  body:z.object({
-    folder:z.string({required_error:"folder is require"}),
-  })
+const createPhotoValidationSchema = z.object({
+  body: z.object({
+    folder: z.string({ required_error: 'folder is require' }),
+  }),
 });
 
-export const photoValidation ={
-  createPhotoValidationSchema
-}
+export const photoValidation = {
+  createPhotoValidationSchema,
+};

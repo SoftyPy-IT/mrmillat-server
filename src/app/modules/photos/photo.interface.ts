@@ -1,4 +1,4 @@
-export type TPhoto={
-  folder:string,
-  imageUrl:string
-}
+export type TPhoto = {
+  folder: string;
+  imageUrl: string;
+};

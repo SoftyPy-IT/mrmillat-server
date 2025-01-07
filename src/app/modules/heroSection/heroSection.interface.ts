@@ -1,8 +1,7 @@
-export type THeroSection ={
-  category:string;
-  title:string;
-  subTitle:string;
-  bgImageUrl:string;
+export type THeroSection = {
+  category: string;
+  title: string;
+  subTitle: string;
   bgImageForLg: string;
   bgImageForSm: string;
-}
+};

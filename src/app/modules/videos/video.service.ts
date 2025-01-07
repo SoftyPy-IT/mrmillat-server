@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { sendVideoToCloudinary } from "../../utils/sendImageToCloudinary";
-import { TVideo } from "./video.interface";
-import { Video } from "./video.model";
+import QueryBuilder from '../../builders/QueryBuilder';
+import { sendVideoToCloudinary } from '../../utils/sendImageToCloudinary';
+import { TVideo } from './video.interface';
+import { Video } from './video.model';
 
 const createVideoIntoDB = async (payload: TVideo, file: any) => {
   const name = `${payload?.folder}-${Date.now()}`;
@@ -14,7 +15,11 @@ const createVideoIntoDB = async (payload: TVideo, file: any) => {
 };
 
 const getAllVideosFromDB = async (query: Record<string, unknown>) => {
-  const result = await Video.find(query);
+  const { folder } = query;
+  const VideoQuery = new QueryBuilder(Video.find(), query).filter().paginate();
+  const data = await VideoQuery.modelQuery;
+  const totalCount = await Video.countDocuments(folder ? { folder } : {});
+  const result = { data, totalCount };
   return result;
 };
 

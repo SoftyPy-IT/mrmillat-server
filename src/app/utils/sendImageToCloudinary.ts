@@ -1,96 +1,75 @@
-import { v2 as cloudinary, UploadApiResponse} from 'cloudinary';
+import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
 import config from '../config';
 import multer from 'multer';
 import fs from 'fs';
 
-
-cloudinary.config({ 
-  cloud_name:config.cloudinary_cloud_name, 
-  api_key:config.cloudinary_api_key, 
-  api_secret:config.cloudinary_api_secret
+cloudinary.config({
+  cloud_name: config.cloudinary_cloud_name,
+  api_key: config.cloudinary_api_key,
+  api_secret: config.cloudinary_api_secret,
 });
 
-
-export const sendImageToCloudinary=(imageName:string,path:string): Promise<{ secure_url: string }>=>{
- return new Promise((resolve,reject)=>{
-
-
-  cloudinary.uploader
-  .upload(
-     path, {
-          public_id: imageName,
-      },
-     function(error,result: UploadApiResponse | undefined){
-      if (error || !result) {
-        return reject(error);
-      }
-      resolve({ secure_url: result?.secure_url });
-// delete a file asynchorously
-  fs.unlink(path,(err)=>{
-  if(err){
-    reject(err);
-  }else{
-    console.log("file is deleted")
-  }
-})
-
-     } 
-  )
-
- })
- 
-  
-}
-
-
-export const sendVideoToCloudinary = (videoName: string, path: string): Promise<{ secure_url: string }> => {
+export const sendImageToCloudinary = (
+  imageName: string,
+  path: string,
+): Promise<{ secure_url: string }> => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(
       path,
       {
-        resource_type: "video", 
-        public_id: videoName,
+        public_id: imageName,
       },
-      function(error,result: UploadApiResponse | undefined){
+      function (error, result: UploadApiResponse | undefined) {
         if (error || !result) {
           return reject(error);
         }
         resolve({ secure_url: result?.secure_url });
-  // delete a file asynchorously
-    fs.unlink(path,(err)=>{
-    if(err){
-      reject(err);
-    }else{
-      console.log("file is deleted")
-    }
-  })
-  
-       } 
+        // delete a file asynchorously
+        fs.unlink(path, (err) => {
+          if (err) {
+            reject(err);
+          }
+        });
+      },
     );
   });
 };
 
+export const sendVideoToCloudinary = (
+  videoName: string,
+  path: string,
+): Promise<{ secure_url: string }> => {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload(
+      path,
+      {
+        resource_type: 'video',
+        public_id: videoName,
+      },
+      function (error, result: UploadApiResponse | undefined) {
+        if (error || !result) {
+          return reject(error);
+        }
+        resolve({ secure_url: result?.secure_url });
+        // delete a file asynchorously
+        fs.unlink(path, (err) => {
+          if (err) {
+            reject(err);
+          }
+        });
+      },
+    );
+  });
+};
 
-
-
-
-
-
- const storage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, process.cwd()+'/uploads/')
+    cb(null, process.cwd() + '/uploads/');
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, file.fieldname + '-' + uniqueSuffix)
-  }
-})
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + '-' + uniqueSuffix);
+  },
+});
 
-export const upload = multer({ storage: storage })
-
-
-
-
-
-
-   
+export const upload = multer({ storage: storage });
