@@ -26,7 +26,7 @@ jobs:
             git reset --hard origin/main
 
             # Ensure environment variables are set up correctly
-            cp .env.example .env
+            cp example.env .env
 
             # Install necessary dependencies
             npm install
