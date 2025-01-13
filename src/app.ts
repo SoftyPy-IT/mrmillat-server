@@ -18,6 +18,7 @@ app.use(
       const allowedOrigins = [
         config.CORS_ORIGIN_ADMIN,
         config.CORS_ORIGIN_CLIENT,
+        "https://mrmillat.com",
       //  "http://localhost:3000",
       //  "http://localhost:3001"
       ];
@@ -36,6 +37,13 @@ app.use(
 
 app.use(cookieParser());
 app.use('/api/v1', router);
+app.use((req, res, next) => {
+  const userAgent = req.headers['user-agent'];
+  if (userAgent && userAgent.includes('facebookexternalhit')) {
+    console.log('Facebook crawler accessed:', req.originalUrl);
+  }
+  next();
+});
 app.use(globalErrorHandler);
 app.use(notFound);
 
