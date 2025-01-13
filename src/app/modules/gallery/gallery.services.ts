@@ -8,7 +8,7 @@ const createGalleryIntoDB = async (payload: TGallery) => {
 };
 
 const getAllGalleryFromDB = async (query: Record<string, unknown>) => {
-  const GalleryQuery = new QueryBuilder(Gallery.find(), query).paginate();
+  const GalleryQuery = new QueryBuilder(Gallery.find(), query).paginate().sort();
   const data = await GalleryQuery.modelQuery;
   const totalCount = await Gallery.countDocuments();
   const result = { data, totalCount };

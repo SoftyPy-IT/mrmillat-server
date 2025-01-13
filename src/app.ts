@@ -18,6 +18,8 @@ app.use(
       const allowedOrigins = [
         config.CORS_ORIGIN_ADMIN,
         config.CORS_ORIGIN_CLIENT,
+      //  "http://localhost:3000",
+      //  "http://localhost:3001"
       ];
 
       if (!origin || allowedOrigins.includes(origin)) {

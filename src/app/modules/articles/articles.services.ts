@@ -8,7 +8,7 @@ const createArticlesIntoDB = async (payload: TArticle) => {
 };
 
 const getAllArticlesFromDB = async (query: Record<string, unknown>) => {
-  const ArticlesQuery = new QueryBuilder(Article.find(), query).paginate();
+  const ArticlesQuery = new QueryBuilder(Article.find(), query).paginate().sort();
 
   const data = await ArticlesQuery.modelQuery;
   const totalCount = await Article.countDocuments();

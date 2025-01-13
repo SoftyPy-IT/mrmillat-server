@@ -7,6 +7,10 @@ const ArticleSchema = new Schema<TArticle>(
       type: String,
       required: [true, 'title is required'],
     },
+    shortDescription: {
+      type: String,
+      required: [true, 'shortDescription is required'],
+    },
     description: {
       type: String,
       required: [true, 'description is required'],
