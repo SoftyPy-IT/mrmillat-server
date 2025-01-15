@@ -11,7 +11,7 @@ const getAllVoiceOnMediaFromDB = async (query: Record<string, unknown>) => {
   const VoiceOnMediaQuery = new QueryBuilder(
     VoiceOnMedia.find(),
     query,
-  ).paginate();
+  ).paginate().sort();
   const data = await VoiceOnMediaQuery.modelQuery;
   const totalCount = await VoiceOnMedia.countDocuments();
   const result = { data, totalCount };
