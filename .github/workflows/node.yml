@@ -17,7 +17,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             # Navigate to the project directory on the admin
-            cd /var/www/html/mrmillat/server
+            cd /var/www/html/millat/server
 
             # Fetch all updates from the remote repository
             git fetch --all
@@ -35,10 +35,10 @@ jobs:
             npm run build
 
             # Check if PM2 process exists, if so, restart it, otherwise start a new one
-            if pm2 describe mrmillat-server > /dev/null; then
-              pm2 restart mrmillat-server
+            if pm2 describe millat-server > /dev/null; then
+              pm2 restart millat-server
             else
-              pm2 start npm --name "mrmillat-server" -- start
+              pm2 start npm --name "millat-server" -- start
             fi
 
             # Save PM2 process list to ensure process persists
