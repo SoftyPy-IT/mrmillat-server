@@ -1,11 +1,18 @@
+// server/videos/video.validation.ts
 import { z } from 'zod';
 
 const createVideoValidationSchema = z.object({
   body: z.object({
-    folder: z.string({ required_error: 'folder is required' }),
+    folder: z.string({ required_error: 'Folder is required' }),
+    title: z.string().optional(),
+    videoType: z.enum(['youtube', 'facebook']).default('youtube'),
+    videoUrl: z.string({ required_error: 'Video URL is required' }),
   }),
 });
 
-export const videoValidation = {
+const updateVideoValidationSchema = createVideoValidationSchema.partial();
+
+export const VideoValidation = {
   createVideoValidationSchema,
+  updateVideoValidationSchema,
 };

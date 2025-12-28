@@ -1,55 +1,54 @@
-import sendResponse from '../../utils/sendResponse';
-import { StatusCodes } from 'http-status-codes';
-import catchAsync from '../../utils/catchAsync';
+// server/videos/video.controller.ts
+import { Request, Response } from 'express';
 import { VideoServices } from './video.service';
+import catchAsync from '../../utils/catchAsync';
 
 const createVideo = catchAsync(async (req, res) => {
-  const payload = req.body;
-  const file = req.file;
-  const result = await VideoServices.createVideoIntoDB(payload, file);
-  sendResponse(res, {
-    statusCode: StatusCodes.OK,
+  
+  const result = await VideoServices.createVideoIntoDB(req.body);
+  
+  res.status(201).json({
     success: true,
     message: 'Video created successfully',
     data: result,
   });
 });
 
-const getAllVideos = catchAsync(async (req, res) => {
+const getAllVideos = catchAsync(async (req: Request, res: Response) => {
   const result = await VideoServices.getAllVideosFromDB(req.query);
-  sendResponse(res, {
-    statusCode: StatusCodes.OK,
+  res.status(200).json({
     success: true,
-    message: 'All Videos retrieved successfully',
+    message: 'Videos retrieved successfully',
     data: result,
   });
 });
 
-const getSingleVideo = catchAsync(async (req, res) => {
+const getSingleVideo = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await VideoServices.getSingleVideoFromDB(id);
-  if (!result) {
-    throw new Error('Video not found');
-  }
-  sendResponse(res, {
-    statusCode: StatusCodes.OK,
+  res.status(200).json({
     success: true,
-    message: 'Single Video retrieved successfully',
+    message: 'Video retrieved successfully',
     data: result,
   });
 });
 
-const deleteVideo = catchAsync(async (req, res) => {
+const updateVideo = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await VideoServices.deleteVideoFromDB(id);
-  if (!result) {
-    throw new Error('Video not found');
-  }
-  sendResponse(res, {
-    statusCode: StatusCodes.OK,
+  const result = await VideoServices.updateVideoFromDB(id, req.body);
+  res.status(200).json({
+    success: true,
+    message: 'Video updated successfully',
+    data: result,
+  });
+});
+
+const deleteVideo = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  await VideoServices.deleteVideoFromDB(id);
+  res.status(200).json({
     success: true,
     message: 'Video deleted successfully',
-    data: result,
   });
 });
 
@@ -57,5 +56,6 @@ export const VideoControllers = {
   createVideo,
   getAllVideos,
   getSingleVideo,
+  updateVideo,
   deleteVideo,
 };
