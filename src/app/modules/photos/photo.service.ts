@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import QueryBuilder from '../../builders/QueryBuilder';
+// import QueryBuilder from '../../builders/QueryBuilder';
 import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 import { TPhoto } from './photo.interface';
 import { Photo } from './photo.model';
@@ -14,13 +14,34 @@ const createPhotoIntoDB = async (payload: TPhoto, file: any) => {
   return result;
 };
 
+
+// photo.service.ts - HARD CODED SOLUTION
 const getAllPhotoFromDB = async (query: Record<string, unknown>) => {
-  const { folder } = query;
-  const PhotoQuery = new QueryBuilder(Photo.find(), query).filter().paginate();
-  const data = await PhotoQuery.modelQuery;
-  const totalCount = await Photo.countDocuments(folder ? { folder } : {});
-  const result = { data, totalCount };
-  return result;
+  const { folder, page = 1, limit = 12 } = query;
+  
+  // Build filter conditions
+  const filterConditions: any = {};
+  if (folder) {
+    filterConditions.folder = folder;
+  }
+  
+  // Calculate pagination
+  const skip = (Number(page) - 1) * Number(limit);
+  
+  // Execute query with FORCED sorting by _id descending (newest first)
+  const data = await Photo.find(filterConditions)
+    .sort({ _id: -1 }) // Force LIFO (Last In First Out)
+    .skip(skip)
+    .limit(Number(limit))
+    .exec();
+  
+  // Get total count
+  const totalCount = await Photo.countDocuments(filterConditions);
+  
+  return { 
+    data, 
+    totalCount 
+  };
 };
 
 const getSinglePhotoFromDB = async (id: string) => {
