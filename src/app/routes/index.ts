@@ -12,6 +12,7 @@ import { authRoutes } from '../modules/auth/auth.route';
 import { photosRoutes } from '../modules/photos/photo.route';
 import { videoRoutes } from '../modules/videos/video.route';
 import { PlanRoutes } from '../modules/plan/plan.route';
+import { manifestoRoutes } from '../modules/manifesto/manifesto.route';
 
 const router = Router();
 
@@ -67,6 +68,10 @@ const moduleRoutes = [
   {
     path: '/videos',
     route: videoRoutes,
+  },
+  {
+    path: '/manifestos',
+    route: manifestoRoutes,
   },
 ];
 
