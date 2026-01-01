@@ -13,6 +13,7 @@ import { photosRoutes } from '../modules/photos/photo.route';
 import { videoRoutes } from '../modules/videos/video.route';
 import { PlanRoutes } from '../modules/plan/plan.route';
 import { manifestoRoutes } from '../modules/manifesto/manifesto.route';
+import { photoCardsRoutes } from '../modules/photocards/photocards.route';
 
 const router = Router();
 
@@ -64,6 +65,10 @@ const moduleRoutes = [
   {
     path: '/photos',
     route: photosRoutes,
+  },
+  {
+    path: '/photoCards',
+    route: photoCardsRoutes,
   },
   {
     path: '/videos',
