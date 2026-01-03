@@ -5,13 +5,21 @@ import { PhotoServices } from './photo.service';
 
 const createPhoto = catchAsync(async (req, res) => {
   const payload = req.body;
-  const file = req.file;
-  const result = await PhotoServices.createPhotoIntoDB(payload, file);
+  const files = req.files as Express.Multer.File[]; // Changed from req.file to req.files
+  
+  // Process multiple files
+  const results = await Promise.all(
+    files.map(async (file) => {
+      const result = await PhotoServices.createPhotoIntoDB(payload, file);
+      return result;
+    })
+  );
+
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'Photo created successfully',
-    data: result,
+    message: `${results.length} photo(s) created successfully`,
+    data: results,
   });
 });
 
@@ -20,7 +28,7 @@ const getAllPhotos = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'All Photo retrieve successfully',
+    message: 'All Photos retrieved successfully',
     data: result,
   });
 });
@@ -34,7 +42,7 @@ const getSinglePhoto = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'Single Photo retrieve successfully',
+    message: 'Single Photo retrieved successfully',
     data: result,
   });
 });

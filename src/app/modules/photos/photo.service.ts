@@ -1,41 +1,39 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// import QueryBuilder from '../../builders/QueryBuilder';
 import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 import { TPhoto } from './photo.interface';
 import { Photo } from './photo.model';
 
-const createPhotoIntoDB = async (payload: TPhoto, file: any) => {
-  const name = `${payload?.folder}-${Date.now()}`;
+const createPhotoIntoDB = async (payload: TPhoto, file: Express.Multer.File) => {
+  const name = `${payload?.folder}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   const path = file?.path;
 
   const { secure_url } = await sendImageToCloudinary(name, path);
-  payload.imageUrl = secure_url;
-  const result = await Photo.create(payload);
+  const photoData = {
+    ...payload,
+    imageUrl: secure_url
+  };
+  const result = await Photo.create(photoData);
   return result;
 };
 
+// No changes needed in getAllPhotoFromDB, getSinglePhotoFromDB, deletePhotoFromDB
 
-// photo.service.ts - HARD CODED SOLUTION
 const getAllPhotoFromDB = async (query: Record<string, unknown>) => {
   const { folder, page = 1, limit = 12 } = query;
   
-  // Build filter conditions
   const filterConditions: any = {};
   if (folder) {
     filterConditions.folder = folder;
   }
   
-  // Calculate pagination
   const skip = (Number(page) - 1) * Number(limit);
   
-  // Execute query with FORCED sorting by _id descending (newest first)
   const data = await Photo.find(filterConditions)
-    .sort({ _id: -1 }) // Force LIFO (Last In First Out)
+    .sort({ _id: -1 })
     .skip(skip)
     .limit(Number(limit))
     .exec();
   
-  // Get total count
   const totalCount = await Photo.countDocuments(filterConditions);
   
   return { 
