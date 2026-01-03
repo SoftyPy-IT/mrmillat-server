@@ -27,6 +27,7 @@ const OurConcernIssueSchema = z
         invalid_type_error: 'Title must be a string',
       })
       .optional(),
+    shortDescription: z.string().optional(), // Add this
     description: z
       .string({
         invalid_type_error: 'Description must be a string',

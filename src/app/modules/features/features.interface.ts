@@ -15,6 +15,7 @@ export type TConcernIssues = {
 export type TOurConcernIssue = {
   title: string;
   description: string;
+  shortDescription: string;
   imageUrl: string;
   ourConcernIssues: TConcernIssues;
 };

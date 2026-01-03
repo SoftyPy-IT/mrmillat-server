@@ -38,6 +38,7 @@ const ConcernIssuesSchema = new Schema<TConcernIssues>(
 const OurConcernIssueSchema = new Schema<TOurConcernIssue>(
   {
     title: { type: String, required: true },
+    shortDescription: { type: String },
     description: { type: String, required: true },
     imageUrl: { type: String, required: true },
     ourConcernIssues: {
