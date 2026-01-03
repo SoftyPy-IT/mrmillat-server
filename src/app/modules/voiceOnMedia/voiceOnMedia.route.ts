@@ -7,7 +7,7 @@ import auth from '../../middlewares/auth';
 const router = express.Router();
 
 router.post(
-  '/create-voice-on-media',
+  '/',
   auth('admin', 'editor'),
   validationRequest(voiceOnMediaValidation.createVoiceOnMediaValidationSchema),
   VoiceOnMediaControllers.createVoiceOnMedia,
