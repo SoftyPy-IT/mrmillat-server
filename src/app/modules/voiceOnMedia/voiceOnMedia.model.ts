@@ -12,9 +12,10 @@ const voiceOnMediaSchema = new Schema<TVoiceOnMedia>(
       type: String,
       required: [true, 'video url is required'],
     },
-    // date: {
-    //   type: Date,
-    // },
+    publishDate: {
+      type: String,
+      required: [true, 'Date is required'],
+    },
   },
   {
     timestamps: true,
