@@ -2,8 +2,13 @@ import QueryBuilder from '../../builders/QueryBuilder';
 import { TVoiceOnMedia } from './voiceOnMedia.interface';
 import { VoiceOnMedia } from './voiceOnMedia.model';
 
+
+
 const createVoiceOnMediaIntoDB = async (payload: TVoiceOnMedia) => {
+
+  
   const result = await VoiceOnMedia.create(payload);
+
   return result;
 };
 
