@@ -3,10 +3,12 @@ import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
 import { VoiceOnMediaServices } from './voiceOnMedia.services';
 
+
 const createVoiceOnMedia = catchAsync(async (req, res) => {
+
+  
   const voiceOnMedia = req.body;
-  const result =
-    await VoiceOnMediaServices.createVoiceOnMediaIntoDB(voiceOnMedia);
+  const result = await VoiceOnMediaServices.createVoiceOnMediaIntoDB(voiceOnMedia);
 
   sendResponse(res, {
     statusCode: StatusCodes.OK,
@@ -15,6 +17,8 @@ const createVoiceOnMedia = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+
 
 const getAllVoiceOnMedias = catchAsync(async (req, res) => {
   const result = await VoiceOnMediaServices.getAllVoiceOnMediaFromDB(req.query);
